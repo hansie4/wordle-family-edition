@@ -1,56 +1,14 @@
-# dependencies
-node_modules
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-.pnp.*
-.npm
-web_modules/
+.venv/
 
-# blitz
-/.blitz/
-/.next/
-*.sqlite
-*.sqlite-journal
-.now
-.blitz**
-blitz-log.log
+*.pyc
+__pycache__/
 
-# misc
-.DS_Store
+instance/
 
-# local env files
-.env.local
-.env.*.local
-.envrc
-
-# Logs
-logs
-*.log
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Testing
+.pytest_cache/
 .coverage
-*.lcov
-.nyc_output
-lib-cov
+htmlcov/
 
-# Caches
-*.tsbuildinfo
-.eslintcache
-.node_repl_history
-.yarn-integrity
-
-# Serverless directories
-.serverless/
-
-# Stores VSCode versions used for testing VSCode extensions
-.vscode-test
+dist/
+build/
+*.egg-info/
