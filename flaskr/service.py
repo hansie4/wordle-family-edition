@@ -20,8 +20,9 @@ def getCurrentRound(user_id: str):
 
     if currentRound:
         attemptsForRound = db.get_attempts_for_round(currentRound["round_id"])
+        wordLength = len(db.get_word(currentRound["word_id"]))
 
-        return attemptsForRound
+        return {"attempts": attemptsForRound, "wordLength": wordLength}
     else:
         return None
 
@@ -49,23 +50,29 @@ def makeGuess(user_id: str, guess: str, possibleWordBank: list):
     # Guesses available
     guessesMade = db.get_guesses_made(user_id)
 
-    if guessesMade > 6:
+    if guessesMade == None or guessesMade > 6:
         return {"valid": False}
 
     # Check if guess is valid
     currentRound = db.get_in_progress_round(user_id)
 
+    if not currentRound:
+        return {"valid": False}
+
+    correctWord = db.get_word(currentRound["word_id"])
+
+    if len(guess) != len(correctWord):
+        return {"valid": False}
+
     guessInWordBank = guess in possibleWordBank
     wordInDB = db.is_word_in_db(guess)
 
-    print("HEHRHEHAOWDAOWDJO")
-    print(currentRound)
-
-    wordIsCorrectWord = db.is_word_correct(guess, currentRound["round_id"])
+    wordIsCorrectWord = guess == correctWord
 
     if wordIsCorrectWord or guessInWordBank or wordInDB:
         # Create attempt
-        aId = db.attempt_word(user_id, guess)
+        attemptCorrectMap = createMapOfCorrectLetters(guess, correctWord)
+        aId = db.attempt_word(user_id, guess, attemptCorrectMap)
         attempts = db.get_attempts_for_round(currentRound["round_id"])
 
         # If last attempt
@@ -74,9 +81,40 @@ def makeGuess(user_id: str, guess: str, possibleWordBank: list):
 
         if wordIsCorrectWord:
             db.add_score_to_leaderboard(user_id, 7 - len(attempts))
+            # Need to set round to done
+            db.complete_round(currentRound["round_id"])
 
-            return {"valid": True, "correct": True, "value": guess, "attempt_id": aId}
+            return {
+                "valid": True,
+                "correct": True,
+                "value": guess,
+                "attempt_id": aId,
+                "attempt_map": attemptCorrectMap,
+            }
         else:
-            return {"valid": True, "correct": False, "value": guess, "attempt_id": aId}
+            return {
+                "valid": True,
+                "correct": False,
+                "value": guess,
+                "attempt_id": aId,
+                "attempt_map": attemptCorrectMap,
+            }
     else:
         return {"valid": False}
+
+
+def createMapOfCorrectLetters(guess: str, correctWord: str):
+    m = ["0"] * len(correctWord)
+
+    for x in range(len(correctWord) - 1, -1, -1):
+        correctLetter = correctWord[x]
+        guessLetter = guess[x]
+
+        if guessLetter == correctLetter:
+            m[x] = "2"
+        elif guessLetter in correctWord:
+            m[x] = "1"
+        else:
+            m[x] = "0"
+
+    return "".join(m)

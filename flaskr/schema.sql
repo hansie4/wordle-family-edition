@@ -31,6 +31,7 @@ CREATE TABLE attempt (
     round_id INTEGER,
     attempt_number INTEGER NOT NULL,
     attempt_input TEXT NOT NULL,
+    attempt_correct_map TEXT NOT NULL,
     FOREIGN KEY (round_id) REFERENCES wordle_round (round_id)
 );
 INSERT INTO user (username)

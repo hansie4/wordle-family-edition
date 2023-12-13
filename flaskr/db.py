@@ -70,6 +70,14 @@ def get_all_words():
     return [dict(w) for w in words]
 
 
+def get_word(word_id: int):
+    db = get_db()
+
+    w = db.execute(f"SELECT word FROM word WHERE id='{word_id}'").fetchone()
+
+    return dict(w)["word"]
+
+
 def is_word_in_db(word: str):
     db = get_db()
 
@@ -100,9 +108,8 @@ def get_in_progress_round(user_id: str):
     db = get_db()
 
     inProgressRound = db.execute(
-        f"SELECT round_id, guesser_id, completed FROM wordle_round WHERE (guesser_id='{user_id}' AND completed=0)"
+        f"SELECT round_id, guesser_id, word_id, completed FROM wordle_round WHERE (guesser_id='{user_id}' AND completed=0)"
     ).fetchone()
-
     if inProgressRound:
         return dict(inProgressRound)
     else:
@@ -141,6 +148,9 @@ def create_new_round(user_id: int, new_word_id: str):
 
 def get_guesses_made(user_id: int):
     r = get_in_progress_round(user_id)
+    if not r:
+        return None
+
     a = get_attempts_for_round(r["round_id"])
 
     currentGuess = len(a) + 1
@@ -148,7 +158,7 @@ def get_guesses_made(user_id: int):
     return currentGuess
 
 
-def attempt_word(user_id: int, attempt: str):
+def attempt_word(user_id: int, attempt: str, attemptCorrectMap: str):
     r = get_in_progress_round(user_id)
     roundId = r["round_id"]
 
@@ -159,7 +169,7 @@ def attempt_word(user_id: int, attempt: str):
     db = get_db()
 
     a = db.execute(
-        f"INSERT INTO attempt (round_id, attempt_number, attempt_input) VALUES ({roundId}, {currentGuess}, '{attempt}')"
+        f"INSERT INTO attempt (round_id, attempt_number, attempt_input, attempt_correct_map) VALUES ({roundId}, {currentGuess}, '{attempt}', '{attemptCorrectMap}')"
     )
 
     db.commit()
@@ -186,12 +196,16 @@ def add_score_to_leaderboard(user_id: int, score_to_add: int):
 
     if currentLeaderboardRecord:
         currentScore = currentLeaderboardRecord["score"]
+
+        a = db.execute(
+            f"UPDATE leaderboard SET score={currentScore + score_to_add} WHERE guesser_id={user_id}"
+        )
     else:
         currentScore = 0
 
-    a = db.execute(
-        f"UPDATE leaderboard SET score={currentScore + score_to_add} WHERE guesser_id={user_id}"
-    )
+        a = db.execute(
+            f"INSERT INTO leaderboard (guesser_id, score) VALUES ('{user_id}',{currentScore + score_to_add})"
+        )
 
     db.commit()
 
