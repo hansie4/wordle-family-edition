@@ -1,0 +1,21 @@
+Endpoints needed:
+
+login user:
+SEND: uername
+RETURN:     200 response for valid
+            400 bad login
+
+get word:
+SEND: username / nothing if session implemented
+RETURN:     current word if exists with guesses
+            new word
+
+send attempt:
+SEND:       username / nothing if session implemented
+            the guess
+RETURN:     200 if valid request
+            400 if invalid
+
+get leaderboard:
+SEND: nothing
+RETURN: leaderboard

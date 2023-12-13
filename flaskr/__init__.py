@@ -1,6 +1,27 @@
 import os
 
-from flask import Flask
+from flask import Flask, request
+from flaskr.service import (
+    shouldAllowLogin,
+    getLeaderboard,
+    getCurrentRound,
+    generateNewRound,
+    makeGuess,
+)
+
+
+def loadWords():
+    script_dir = os.path.dirname(__file__)
+    rel_path = "../resources/possible_guesses.txt"
+    abs_file_path = os.path.join(script_dir, rel_path)
+
+    f = open(abs_file_path, "r")
+
+    ws = f.read().splitlines()
+
+    f.close()
+
+    return ws
 
 
 def create_app(test_config=None):
@@ -27,10 +48,57 @@ def create_app(test_config=None):
     from . import db
 
     db.init_app(app)
+    possibleWords = loadWords()
 
-    # a simple page that says hello
-    @app.route("/hello")
+    print(f"Loaded {len(possibleWords)} words.")
+
+    @app.get("/hello")
     def hello():
-        return "Hello, World!"
+        return "Hello!"
+
+    @app.post("/login")
+    def login():
+        r = request.get_json()
+
+        isAllowed = shouldAllowLogin(r["username"])
+
+        if isAllowed:
+            return isAllowed, 200
+        else:
+            return "Invalid login.", 400
+
+    @app.get("/leaderboard")
+    def getWordleLeaderboard():
+        return getLeaderboard(), 200
+
+    @app.get("/current-round")
+    def getWordleCurrentRound():
+        uid = request.args["user_id"]
+        cr = getCurrentRound(uid)
+
+        if cr == None:
+            return "No current round.", 404
+        else:
+            return cr, 200
+
+    @app.post("/new-round")
+    def genWordleNewRound():
+        uid = request.args["user_id"]
+        nr = generateNewRound(uid)
+
+        if nr:
+            return "", 204
+        else:
+            return "Round still in progress.", 400
+
+    @app.post("/guess")
+    def makeWordleGuess():
+        uid = request.args["user_id"]
+
+        r = request.get_json()
+
+        guessAttempt = r["guess"]
+
+        return makeGuess(uid, guessAttempt, possibleWords)
 
     return app
