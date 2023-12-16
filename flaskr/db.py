@@ -83,7 +83,9 @@ def is_word_in_db(word: str):
 
     w = db.execute(f"SELECT count(*) FROM word WHERE word='{word}'").fetchone()
 
-    if w:
+    print(list(dict(w).values())[0])
+
+    if list(dict(w).values())[0] > 0:
         return True
     else:
         return False
@@ -175,6 +177,14 @@ def attempt_word(user_id: int, attempt: str, attemptCorrectMap: str):
     db.commit()
 
     return a.lastrowid
+
+
+def get_round(round_id: int):
+    db = get_db()
+
+    a = db.execute(f"SELECT * FROM wordle_round WHERE round_id={round_id}").fetchone()
+
+    return dict(a)
 
 
 def complete_round(round_id: int):

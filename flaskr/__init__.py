@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask import Flask, request, render_template
 from flaskr.service import (
@@ -15,16 +16,16 @@ from flask_cors import CORS, cross_origin
 
 def loadWords():
     script_dir = os.path.dirname(__file__)
-    rel_path = "../resources/possible_guesses.txt"
+    rel_path = "../resources/words_dictionary.json"
     abs_file_path = os.path.join(script_dir, rel_path)
 
     f = open(abs_file_path, "r")
 
-    ws = f.read().splitlines()
+    ws = f.read()
 
     f.close()
 
-    return ws
+    return json.loads(ws)
 
 
 def create_app(test_config=None):
@@ -125,7 +126,7 @@ def create_app(test_config=None):
         nr = generateNewRound(uid)
 
         if nr:
-            return "", 204
+            return nr, 200
         else:
             return "Round still in progress.", 400
 
@@ -138,11 +139,12 @@ def create_app(test_config=None):
             return "Missing uid.", 401
 
         uid = dict(request.headers)["Uid"]
+        rid = dict(request.args)["rid"]
 
         r = request.get_json()
 
         guessAttempt = r["guess"]
 
-        return makeGuess(uid, guessAttempt, possibleWords)
+        return makeGuess(uid, rid, guessAttempt, possibleWords)
 
     return app

@@ -35,7 +35,7 @@ def generateNewRound(user_id: str):
     currentRound = db.get_in_progress_round(user_id)
 
     if currentRound:
-        return False
+        return {"wordCreated": False, "winner": False}
 
     words = db.get_all_words()
     completedRoundsWithWords = db.get_completed_rounds_with_words(user_id)
@@ -43,47 +43,45 @@ def generateNewRound(user_id: str):
 
     words = list(filter(lambda x: x["word"] not in completedWords, words))
 
+    if len(words) == 0:
+        return {"wordCreated": False, "winner": True}
+
     newWordId = random.choice(words)["id"]
 
     db.create_new_round(user_id, newWordId)
 
-    return True
+    return {"wordCreated": True, "winner": False}
 
 
-def makeGuess(user_id: str, guess: str, possibleWordBank: list):
-    # Guesses available
-    guessesMade = db.get_guesses_made(user_id)
+def makeGuess(user_id: str, round_id: int, guess: str, possibleWordBank: list):
+    currentRound = db.get_round(round_id)
+    attemptsMadeSoFar = db.get_attempts_for_round(round_id)
 
-    if guessesMade == None or guessesMade > 6:
-        return {"valid": False}
-
-    # Check if guess is valid
-    currentRound = db.get_in_progress_round(user_id)
-
-    if not currentRound:
-        return {"valid": False}
+    wordsGuessedSoFar = list(map(lambda x: x["attempt_input"], attemptsMadeSoFar))
 
     correctWord = db.get_word(currentRound["word_id"])
 
-    if len(guess) != len(correctWord):
-        return {"valid": False}
-
+    isWordTheCorrectWord = guess == correctWord
+    hasWordAlreadyBeenGuessed = guess in wordsGuessedSoFar
     guessInWordBank = guess in possibleWordBank
-    wordInDB = db.is_word_in_db(guess)
+    guessInDB = db.is_word_in_db(guess)
 
-    wordIsCorrectWord = guess == correctWord
+    print(f"isWordTheCorrectWord = {isWordTheCorrectWord}")
+    print(f"hasWordAlreadyBeenGuessed = {hasWordAlreadyBeenGuessed}")
+    print(f"guessInWordBank = {guessInWordBank}")
+    print(f"guessInDB = {guessInDB}")
 
-    if wordIsCorrectWord or guessInWordBank or wordInDB:
-        # Create attempt
+    if isWordTheCorrectWord or (
+        not hasWordAlreadyBeenGuessed and (guessInWordBank or guessInDB)
+    ):
         attemptCorrectMap = createMapOfCorrectLetters(guess, correctWord)
         aId = db.attempt_word(user_id, guess, attemptCorrectMap)
         attempts = db.get_attempts_for_round(currentRound["round_id"])
 
-        # If last attempt
-        if len(attempts) == 6:
+        if len(attempts) == 7:
             db.complete_round(currentRound["round_id"])
 
-        if wordIsCorrectWord:
+        if isWordTheCorrectWord:
             db.add_score_to_leaderboard(user_id, 7 - len(attempts))
             # Need to set round to done
             db.complete_round(currentRound["round_id"])

@@ -6,7 +6,7 @@ import { AppContext } from "./App";
 import axios from "axios";
 import NewWordModal from "./NewWordModal";
 
-const MAX_NUM_ATTEMTPS = 6;
+const MAX_NUM_ATTEMTPS = 7;
 
 const Gameboard = () => {
     const { user_id } = useContext(AppContext);
@@ -43,7 +43,15 @@ const Gameboard = () => {
                     headers: { uid: user_id },
                 }
             )
-            .then(getCurrentState)
+            .then((res) => {
+                if (res.data.winner) {
+                    alert("TOTAL Winner!!!");
+                } else if (res.data.wordCreated) {
+                    getCurrentState();
+                } else {
+                    alert("Error generating new round");
+                }
+            })
             .catch((err) => console.log(err));
     };
 
@@ -77,10 +85,24 @@ const Gameboard = () => {
                 .post(
                     "http://localhost:5000/guess",
                     { guess: currentInput.toLowerCase() },
-                    { headers: { uid: user_id } }
+                    { headers: { uid: user_id }, params: { rid: roundId } }
                 )
-                .then(() => {
-                    getAttempts();
+                .then((res) => {
+                    console.log(res.data);
+                    if (res.data.correct) {
+                        window.confirm("YOU ARE CORRECT!");
+                        createNewRound();
+                    } else if (res.data.valid === false) {
+                        alert("bad guess");
+                        getAttempts();
+                    } else {
+                        if (currentGuessRow === MAX_NUM_ATTEMTPS + 1) {
+                            window.confirm("You ran out of attemtps");
+                            createNewRound();
+                        } else {
+                            getAttempts();
+                        }
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
