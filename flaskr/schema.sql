@@ -23,6 +23,7 @@ CREATE TABLE wordle_round (
     guesser_id INTEGER,
     word_id INTEGER,
     completed INTEGER,
+    done INTEGER,
     FOREIGN KEY (guesser_id) REFERENCES user (id),
     FOREIGN KEY (word_id) REFERENCES word (id)
 );
@@ -44,3 +45,9 @@ INSERT INTO word (word, body, f_name)
 VALUES ('simba', 'The best cat', 'test.png');
 INSERT INTO word (word, body, f_name)
 VALUES ('hans', 'guy', 'test.png');
+INSERT INTO word (word, body, f_name)
+VALUES ('madison', 'person', 'test.png');
+INSERT INTO word (word, body, f_name)
+VALUES ('paris', 'place', 'test.png');
+INSERT INTO word (word, body, f_name)
+VALUES ('dad', 'father', 'test.png');

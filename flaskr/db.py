@@ -190,12 +190,12 @@ def complete_round(round_id: int):
 def add_score_to_leaderboard(user_id: int, score_to_add: int):
     db = get_db()
 
-    s = db.execute(f"SELECT * FROM leaderboard WHERE guesser_id={user_id}")
+    s = db.execute(
+        f"SELECT score FROM leaderboard WHERE guesser_id={user_id}"
+    ).fetchone()
 
-    currentLeaderboardRecord = dict(s)
-
-    if currentLeaderboardRecord:
-        currentScore = currentLeaderboardRecord["score"]
+    if s:
+        currentScore = s[0]
 
         a = db.execute(
             f"UPDATE leaderboard SET score={currentScore + score_to_add} WHERE guesser_id={user_id}"

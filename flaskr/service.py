@@ -22,7 +22,11 @@ def getCurrentRound(user_id: str):
         attemptsForRound = db.get_attempts_for_round(currentRound["round_id"])
         wordLength = len(db.get_word(currentRound["word_id"]))
 
-        return {"attempts": attemptsForRound, "wordLength": wordLength}
+        return {
+            "attempts": attemptsForRound,
+            "wordLength": wordLength,
+            "round_id": currentRound["round_id"],
+        }
     else:
         return None
 
@@ -118,3 +122,7 @@ def createMapOfCorrectLetters(guess: str, correctWord: str):
             m[x] = "0"
 
     return "".join(m)
+
+
+def getAllAttemptsForRound(round_id: int):
+    return db.get_attempts_for_round(round_id)

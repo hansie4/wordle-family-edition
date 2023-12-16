@@ -1,13 +1,16 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flaskr.service import (
     shouldAllowLogin,
     getLeaderboard,
     getCurrentRound,
     generateNewRound,
     makeGuess,
+    getAllAttemptsForRound,
 )
+
+from flask_cors import CORS, cross_origin
 
 
 def loadWords():
@@ -26,7 +29,13 @@ def loadWords():
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(
+        __name__,
+        static_folder="../app_ui/build/static",
+        template_folder="../app_ui/build",
+        instance_relative_config=True,
+    )
+    CORS(app)
     app.config.from_mapping(
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
@@ -52,10 +61,18 @@ def create_app(test_config=None):
 
     print(f"Loaded {len(possibleWords)} words.")
 
+    @cross_origin(origin="*")
+    @app.get("/ui")
+    @app.get("/ui/<path>")
+    def serve(path=None):
+        return render_template("index.html", name=path)
+
+    @cross_origin(origin="*")
     @app.get("/hello")
     def hello():
         return "Hello!"
 
+    @cross_origin(origin="*")
     @app.post("/login")
     def login():
         r = request.get_json()
@@ -67,13 +84,20 @@ def create_app(test_config=None):
         else:
             return "Invalid login.", 400
 
+    @cross_origin(origin="*")
     @app.get("/leaderboard")
     def getWordleLeaderboard():
         return getLeaderboard(), 200
 
+    @cross_origin(origin="*")
     @app.get("/current-round")
     def getWordleCurrentRound():
-        uid = request.args["user_id"]
+        h = dict(request.headers)
+
+        if "Uid" not in h:
+            return "Missing uid.", 401
+
+        uid = dict(request.headers)["Uid"]
         cr = getCurrentRound(uid)
 
         if cr == None:
@@ -81,9 +105,23 @@ def create_app(test_config=None):
         else:
             return cr, 200
 
+    @cross_origin(origin="*")
+    @app.get("/attempts")
+    def getWordleAttempts():
+        rid = dict(request.args)["rid"]
+
+        a = getAllAttemptsForRound(rid)
+        return a, 200
+
+    @cross_origin(origin="*")
     @app.post("/new-round")
     def genWordleNewRound():
-        uid = request.args["user_id"]
+        h = dict(request.headers)
+
+        if "Uid" not in h:
+            return "Missing uid.", 401
+
+        uid = dict(request.headers)["Uid"]
         nr = generateNewRound(uid)
 
         if nr:
@@ -91,9 +129,15 @@ def create_app(test_config=None):
         else:
             return "Round still in progress.", 400
 
+    @cross_origin(origin="*")
     @app.post("/guess")
     def makeWordleGuess():
-        uid = request.args["user_id"]
+        h = dict(request.headers)
+
+        if "Uid" not in h:
+            return "Missing uid.", 401
+
+        uid = dict(request.headers)["Uid"]
 
         r = request.get_json()
 
