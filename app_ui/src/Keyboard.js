@@ -2,15 +2,34 @@ const ROW_ONE = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
 const ROW_TWO = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
 const ROW_THREE = ["Z", "X", "C", "V", "B", "N", "M"];
 
-const Keyboard = ({ updateInput, enterGuessEnabled, enterGuess }) => {
+const Keyboard = ({
+    updateInput,
+    enterGuessEnabled,
+    enterGuess,
+    perfectLetters,
+    goodLetters,
+    badLetters,
+}) => {
     return (
-        <div className='flex justify-center w-screen fixed bottom-0 left-0 z-20 w-full'>
+        <div className='flex justify-center w-screen fixed bottom-0 left-0 z-20 w-full bg-accent'>
             <div className='w-96'>
                 <div className='flex justify-center gap-1 my-1 w-full'>
                     {ROW_ONE.map((K, I) => {
+                        let c;
+
+                        if (perfectLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-success";
+                        } else if (goodLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-warning";
+                        } else if (badLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-slate-400";
+                        } else {
+                            c = "kbd";
+                        }
+
                         return (
                             <kbd
-                                className='kbd'
+                                className={c}
                                 key={I}
                                 onClick={() => updateInput(K)}
                             >
@@ -21,9 +40,21 @@ const Keyboard = ({ updateInput, enterGuessEnabled, enterGuess }) => {
                 </div>
                 <div className='flex justify-center gap-1 my-1 w-full'>
                     {ROW_TWO.map((K, I) => {
+                        let c;
+
+                        if (perfectLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-success";
+                        } else if (goodLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-warning";
+                        } else if (badLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-slate-400";
+                        } else {
+                            c = "kbd";
+                        }
+
                         return (
                             <kbd
-                                className='kbd'
+                                className={c}
                                 key={I}
                                 onClick={() => updateInput(K)}
                             >
@@ -48,9 +79,21 @@ const Keyboard = ({ updateInput, enterGuessEnabled, enterGuess }) => {
                         </svg>
                     </kbd>
                     {ROW_THREE.map((K, I) => {
+                        let c;
+
+                        if (perfectLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-success";
+                        } else if (goodLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-warning";
+                        } else if (badLetters.has(K.toLowerCase())) {
+                            c = "kbd bg-slate-400";
+                        } else {
+                            c = "kbd";
+                        }
+
                         return (
                             <kbd
-                                className='kbd'
+                                className={c}
                                 key={I}
                                 onClick={() => updateInput(K)}
                             >

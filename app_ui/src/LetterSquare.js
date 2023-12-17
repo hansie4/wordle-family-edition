@@ -1,9 +1,11 @@
-const LetterSquare = ({ value, color }) => {
+const LetterSquare = ({ value, color, currentlyGuessing }) => {
     const c =
         color === 2
-            ? "bg-green-400"
+            ? "bg-success"
             : color === 1
-            ? "bg-yellow-400"
+            ? "bg-warning"
+            : value && !currentlyGuessing
+            ? "bg-slate-400"
             : "bg-white";
 
     return (
