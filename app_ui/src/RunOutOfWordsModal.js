@@ -1,16 +1,34 @@
-const RunOutOfWordsModal = () => {
+const RunOutOfWordsModal = ({ navigateToLeaderboard }) => {
     return (
-        <dialog id='my_modal_1' className='modal'>
+        <dialog id='runOutOfWordsModal' className='modal'>
             <div className='modal-box'>
-                <h3 className='font-bold text-lg'>Hello!</h3>
+                <h3 className='font-bold text-lg'>YOU BEAT THE GAME!</h3>
                 <p className='py-4'>
-                    Press ESC key or click the button below to close
+                    You have guessed all the words! Click the button to view the
+                    leaderboard.
                 </p>
-                <div className='modal-action'>
-                    <form method='dialog'>
-                        {/* if there is a button in form, it will close the modal */}
-                        <button className='btn'>Close</button>
-                    </form>
+                <div className='modal-action w-full'>
+                    <div className='flex justify-center w-full'>
+                        <button
+                            className='btn btn-primary btn-wide'
+                            onClick={navigateToLeaderboard}
+                        >
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                                strokeWidth={1.5}
+                                stroke='currentColor'
+                                className='w-6 h-6'
+                            >
+                                <path
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
+                                    d='M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
+                                />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </dialog>

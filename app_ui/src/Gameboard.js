@@ -5,8 +5,10 @@ import Keyboard from "./Keyboard";
 import { AppContext } from "./App";
 import axios from "axios";
 import NewWordModal from "./NewWordModal";
-import PostRoundModal from "./PostRoundModal";
+import PostRoundWinModal from "./PostRoundWinModal";
+import PostRoundLoseModal from "./PostRoundLoseModal";
 import { useNavigate } from "react-router-dom";
+import RunOutOfWordsModal from "./RunOutOfWordsModal";
 
 const MAX_NUM_ATTEMTPS = 7;
 
@@ -77,8 +79,11 @@ const WarningIcon = () => (
 const openRunOutOfWordsModal = () => {
     document.getElementById("runOutOfWordsModal").showModal();
 };
-const openPostRoundModal = () => {
-    document.getElementById("postRoundModal").showModal();
+const openPostRoundWinModal = () => {
+    document.getElementById("postRoundWinModal").showModal();
+};
+const openPostRoundLoseModal = () => {
+    document.getElementById("postRoundLoseModal").showModal();
 };
 const openNewWordModal = () => {
     document.getElementById("newWordModal").showModal();
@@ -106,8 +111,15 @@ const Gameboard = () => {
     const [goodLetters, setGoodLetters] = useState(new Set());
     const [badLetters, setBadLetters] = useState(new Set());
 
-    const closePostRoundModal = () => {
-        document.getElementById("postRoundModal").close();
+    const [wordId, setWordId] = useState();
+
+    const closePostRoundWinModal = () => {
+        setWordId(null);
+        document.getElementById("postRoundWinModal").close();
+        openNewWordModal();
+    };
+    const closePostRoundLoseModal = () => {
+        document.getElementById("postRoundLoseModal").close();
         openNewWordModal();
     };
     const closeNewWordModal = () => {
@@ -167,15 +179,13 @@ const Gameboard = () => {
             })
             .then((res) => {
                 setAttempts(res.data);
-                setAlertMessage(defaultMessage);
-                setAlertType("standard");
                 setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
             });
-    }, [roundId, user_id, defaultMessage]);
+    }, [roundId, user_id]);
 
     const updateInput = (inputVal) => {
         if (inputVal === "clear") {
@@ -202,7 +212,8 @@ const Gameboard = () => {
                         setAlertMessage("You correctly guessed the word!");
                         setAlertType("success");
                         getAttempts();
-                        openPostRoundModal();
+                        setWordId(res.data.word_id);
+                        openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
                         setAlertMessage(
@@ -213,7 +224,7 @@ const Gameboard = () => {
                         setAlertMessage(defaultMessage);
                         setAlertType("standard");
                         if (currentGuessRow === MAX_NUM_ATTEMTPS - 1) {
-                            openPostRoundModal();
+                            openPostRoundLoseModal();
                         } else {
                             getAttempts();
                         }
@@ -266,7 +277,11 @@ const Gameboard = () => {
     return (
         <div className='w-screen h-screen'>
             <NewWordModal close={closeNewWordModal} />
-            <PostRoundModal close={closePostRoundModal} />
+            <PostRoundWinModal close={closePostRoundWinModal} wordId={wordId} />
+            <PostRoundLoseModal close={closePostRoundLoseModal} />
+            <RunOutOfWordsModal
+                navigateToLeaderboard={() => navigate("/leaderboard")}
+            />
             <Header
                 logout={() => {
                     updateUsername("");

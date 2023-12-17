@@ -80,6 +80,14 @@ def get_word(word_id: int):
     return dict(w)["word"]
 
 
+def get_full_word_details(word_id: int):
+    db = get_db()
+
+    w = db.execute(f"SELECT * FROM word WHERE id={word_id}").fetchone()
+
+    return dict(w)
+
+
 def is_word_in_db(word: str):
     db = get_db()
 
@@ -186,7 +194,10 @@ def get_round(round_id: int):
 
     a = db.execute(f"SELECT * FROM wordle_round WHERE round_id={round_id}").fetchone()
 
-    return dict(a)
+    if a:
+        return dict(a)
+    else:
+        return dict()
 
 
 def complete_round(round_id: int):

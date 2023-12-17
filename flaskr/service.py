@@ -92,6 +92,7 @@ def makeGuess(user_id: str, round_id: int, guess: str, possibleWordBank: list):
                 "value": guess,
                 "attempt_id": aId,
                 "attempt_map": attemptCorrectMap,
+                "word_id": currentRound["word_id"],
             }
         else:
             return {
@@ -124,3 +125,7 @@ def createMapOfCorrectLetters(guess: str, correctWord: str):
 
 def getAllAttemptsForRound(round_id: int):
     return db.get_attempts_for_round(round_id)
+
+
+def getFullWordDetails(word_id: int):
+    return db.get_full_word_details(word_id)

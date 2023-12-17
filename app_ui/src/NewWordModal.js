@@ -3,7 +3,7 @@ const NewWordModal = ({ close }) => {
         <dialog id='newWordModal' className='modal'>
             <div className='modal-box'>
                 <h3 className='font-bold text-lg text-center'>
-                    Click start to guess a word!
+                    Click "Start" to guess a word!
                 </h3>
                 <div className='modal-action flex justify-center'>
                     <form method='dialog'>

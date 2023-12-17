@@ -9,6 +9,7 @@ from flaskr.service import (
     generateNewRound,
     makeGuess,
     getAllAttemptsForRound,
+    getFullWordDetails,
 )
 
 from flask_cors import CORS, cross_origin
@@ -146,5 +147,12 @@ def create_app(test_config=None):
         guessAttempt = r["guess"]
 
         return makeGuess(uid, rid, guessAttempt, possibleWords)
+
+    @cross_origin(origin="*")
+    @app.get("/word")
+    def getWord():
+        wid = dict(request.args)["wid"]
+
+        return getFullWordDetails(wid)
 
     return app
