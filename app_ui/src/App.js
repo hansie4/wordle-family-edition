@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Gameboard from "./Gameboard";
 import Login from "./Login";
+import Leaderboard from "./Leaderboard";
 
 export const AppContext = createContext({
     username: null,
@@ -49,7 +50,7 @@ function App() {
             },
             {
                 path: "/leaderboard",
-                element: <div>Leaderboard</div>,
+                element: <Leaderboard />,
             },
             {
                 path: "/login",

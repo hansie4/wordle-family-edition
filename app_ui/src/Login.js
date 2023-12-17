@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "./App";
 
 const Login = ({ login }) => {
     const navigate = useNavigate();
+
+    const appContext = useContext(AppContext);
 
     const [username, setUsername] = useState("");
     const [loading, setLoading] = useState(false);
@@ -32,6 +35,10 @@ const Login = ({ login }) => {
     useEffect(() => {
         setErrMessage(null);
     }, [username]);
+
+    if (appContext.username && appContext.user_id) {
+        navigate("/");
+    }
 
     return (
         <div className='w-screen h-screen bg-primary grid place-content-center'>

@@ -84,7 +84,7 @@ const openNewWordModal = () => {
     document.getElementById("newWordModal").showModal();
 };
 
-const Gameboard = ({ logout, redirectToLeaderboard }) => {
+const Gameboard = ({}) => {
     const navigate = useNavigate();
 
     const { user_id, updateUsername, updateUserId } = useContext(AppContext);
@@ -260,7 +260,9 @@ const Gameboard = ({ logout, redirectToLeaderboard }) => {
                     updateUserId("");
                     navigate("/login");
                 }}
-                redirectToLeaderboard={redirectToLeaderboard}
+                redirectToLeaderboard={() => navigate("/leaderboard")}
+                currentlyOnLeaderboard={false}
+                signedIn={true}
             />
 
             <div className='h-[42rem]'>
