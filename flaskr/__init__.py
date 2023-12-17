@@ -156,3 +156,6 @@ def create_app(test_config=None):
         return getFullWordDetails(wid)
 
     return app
+
+
+app = create_app()
