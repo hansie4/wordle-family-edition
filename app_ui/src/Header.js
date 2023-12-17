@@ -33,7 +33,10 @@ const Header = ({
                 </svg>
             </button>
             <button className='btn bg-inherit border-transparent btn-sm  btn-wide text-2xl font-black text-black no-animation'>
-                LLOYDLE
+                <img
+                    src='https://drive.google.com/uc?export=view&id=1qB2wXneNhRdhFzrra35BtnwxBft3QrUD'
+                    alt='logo'
+                />
             </button>
             {currentlyOnLeaderboard ? (
                 <button
