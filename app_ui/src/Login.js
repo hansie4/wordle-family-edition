@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "./App";
+import { AppContext, BASE_URL } from "./App";
 
 const Login = ({ login }) => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Login = ({ login }) => {
         if (username.length > 0) {
             setLoading(true);
             axios
-                .post("/login", {
+                .post(BASE_URL + "/login", {
                     username: username.toLowerCase(),
                 })
                 .then((res) => {

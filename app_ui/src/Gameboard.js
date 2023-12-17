@@ -9,6 +9,7 @@ import PostRoundWinModal from "./PostRoundWinModal";
 import PostRoundLoseModal from "./PostRoundLoseModal";
 import { useNavigate } from "react-router-dom";
 import RunOutOfWordsModal from "./RunOutOfWordsModal";
+import { BASE_URL } from "./App";
 
 const MAX_NUM_ATTEMTPS = 7;
 
@@ -129,7 +130,7 @@ const Gameboard = () => {
 
     const getCurrentState = useCallback(() => {
         axios
-            .get("/current-round", {
+            .get(BASE_URL + "/current-round", {
                 headers: { uid: user_id },
             })
             .then((res) => {
@@ -147,7 +148,7 @@ const Gameboard = () => {
         setLoading(true);
         axios
             .post(
-                "/new-round",
+                BASE_URL + "/new-round",
                 {},
                 {
                     headers: { uid: user_id },
@@ -173,7 +174,7 @@ const Gameboard = () => {
     const getAttempts = useCallback(() => {
         setLoading(true);
         axios
-            .get("/attempts", {
+            .get(BASE_URL + "/attempts", {
                 params: { rid: roundId },
                 headers: { uid: user_id },
             })
@@ -202,7 +203,7 @@ const Gameboard = () => {
             setLoading(true);
             axios
                 .post(
-                    "/guess",
+                    BASE_URL + "/guess",
                     { guess: currentInput.toLowerCase() },
                     { headers: { uid: user_id }, params: { rid: roundId } }
                 )

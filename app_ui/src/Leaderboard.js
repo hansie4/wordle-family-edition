@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import Header from "./Header";
-import { AppContext } from "./App";
+import { AppContext, BASE_URL } from "./App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -41,7 +41,7 @@ const Leaderboard = () => {
 
     const getLeaderboard = useCallback(() => {
         axios
-            .get("/leaderboard")
+            .get(BASE_URL + "/leaderboard")
             .then(({ data }) => {
                 setLeaderboard(data);
             })

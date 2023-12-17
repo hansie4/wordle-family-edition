@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { BASE_URL } from "./App";
 
 const PostRoundWinModal = ({ close, wordId }) => {
     const [wordDetails, setWordDeatils] = useState(null);
@@ -7,7 +8,7 @@ const PostRoundWinModal = ({ close, wordId }) => {
     useEffect(() => {
         if (wordId) {
             axios
-                .get("/word", { params: { wid: wordId } })
+                .get(BASE_URL + "/word", { params: { wid: wordId } })
                 .then(({ data }) => {
                     setWordDeatils(data);
                 })
