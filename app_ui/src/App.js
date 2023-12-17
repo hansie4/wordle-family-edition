@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import axios from "axios";
 
 import Gameboard from "./Gameboard";
 import Login from "./Login";
@@ -8,6 +9,10 @@ export const AppContext = createContext({
     username: null,
     user_id: null,
 });
+
+axios.defaults.baseURL = process.env.BASE_URL
+    ? process.env.BASE_URL
+    : "http://localhost:5000";
 
 function App() {
     const [username, setUsername] = useState(

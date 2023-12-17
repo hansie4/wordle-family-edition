@@ -11,11 +11,10 @@ const Login = ({ login }) => {
     const [errMessage, setErrMessage] = useState(null);
 
     const validateUsername = () => {
-        console.log("HEWAEHAIAWUHD");
         if (username.length > 0) {
             setLoading(true);
             axios
-                .post("http://localhost:5000/login", {
+                .post("/login", {
                     username: username.toLowerCase(),
                 })
                 .then((res) => {

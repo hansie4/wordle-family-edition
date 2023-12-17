@@ -115,7 +115,7 @@ const Gameboard = ({ logout, redirectToLeaderboard }) => {
 
     const getCurrentState = useCallback(() => {
         axios
-            .get("http://localhost:5000/current-round", {
+            .get("/current-round", {
                 headers: { uid: user_id },
             })
             .then((res) => {
@@ -132,7 +132,7 @@ const Gameboard = ({ logout, redirectToLeaderboard }) => {
     const createNewRound = () => {
         axios
             .post(
-                "http://localhost:5000/new-round",
+                "/new-round",
                 {},
                 {
                     headers: { uid: user_id },
@@ -153,7 +153,7 @@ const Gameboard = ({ logout, redirectToLeaderboard }) => {
 
     const getAttempts = useCallback(() => {
         axios
-            .get("http://localhost:5000/attempts", {
+            .get("/attempts", {
                 params: { rid: roundId },
                 headers: { uid: user_id },
             })
@@ -181,7 +181,7 @@ const Gameboard = ({ logout, redirectToLeaderboard }) => {
         if (currentInput.length === wordLength) {
             axios
                 .post(
-                    "http://localhost:5000/guess",
+                    "/guess",
                     { guess: currentInput.toLowerCase() },
                     { headers: { uid: user_id }, params: { rid: roundId } }
                 )
