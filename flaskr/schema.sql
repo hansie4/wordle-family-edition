@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS wordle_round;
 DROP TABLE IF EXISTS attempt;
 CREATE TABLE user (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL
+    username TEXT UNIQUE NOT NULL,
+    avatar_link TEXT
 );
 CREATE TABLE word (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -35,10 +36,81 @@ CREATE TABLE attempt (
     attempt_correct_map TEXT NOT NULL,
     FOREIGN KEY (round_id) REFERENCES wordle_round (round_id)
 );
-INSERT INTO user (username)
-VALUES ('hans');
-INSERT INTO user (username)
-VALUES ('beryl');
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'hans',
+        'https://daisyui.com/tailwind-css-component-profile-2@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'beryl',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'wes',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'april l',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'madison',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'austin',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'kaleb',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'matt',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'wendy',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'sandy',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'steve',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'kevin',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'shane',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'chase',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'april k',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
 INSERT INTO word (word, body, f_name)
 VALUES ('beryl', 'The best cutie', 'test.png');
 INSERT INTO word (word, body, f_name)

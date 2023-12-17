@@ -9,6 +9,7 @@ const Keyboard = ({
     perfectLetters,
     goodLetters,
     badLetters,
+    loading,
 }) => {
     return (
         <div className='flex justify-center w-screen fixed bottom-0 left-0 z-20 w-full bg-accent'>
@@ -128,6 +129,9 @@ const Keyboard = ({
                             }
                         }}
                     >
+                        {loading ? (
+                            <span className='loading loading-spinner loading-md mr-2'></span>
+                        ) : null}
                         ENTER
                     </kbd>
                 </div>

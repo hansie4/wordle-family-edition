@@ -84,10 +84,12 @@ const openNewWordModal = () => {
     document.getElementById("newWordModal").showModal();
 };
 
-const Gameboard = ({}) => {
+const Gameboard = () => {
     const navigate = useNavigate();
 
     const { user_id, updateUsername, updateUserId } = useContext(AppContext);
+
+    const [loading, setLoading] = useState(false);
 
     const [attempts, setAttempts] = useState([]);
     const [wordLength, setWordLength] = useState(5);
@@ -130,6 +132,7 @@ const Gameboard = ({}) => {
     }, [user_id]);
 
     const createNewRound = () => {
+        setLoading(true);
         axios
             .post(
                 "/new-round",
@@ -147,11 +150,16 @@ const Gameboard = ({}) => {
                     alertMessage("Error generating new round.");
                     alertType("error");
                 }
+                setLoading(false);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
     };
 
     const getAttempts = useCallback(() => {
+        setLoading(true);
         axios
             .get("/attempts", {
                 params: { rid: roundId },
@@ -161,9 +169,11 @@ const Gameboard = ({}) => {
                 setAttempts(res.data);
                 setAlertMessage(defaultMessage);
                 setAlertType("standard");
+                setLoading(false);
             })
             .catch((err) => {
                 console.log(err);
+                setLoading(false);
             });
     }, [roundId, user_id, defaultMessage]);
 
@@ -179,6 +189,7 @@ const Gameboard = ({}) => {
 
     const makeGuess = () => {
         if (currentInput.length === wordLength) {
+            setLoading(true);
             axios
                 .post(
                     "/guess",
@@ -207,9 +218,11 @@ const Gameboard = ({}) => {
                             getAttempts();
                         }
                     }
+                    setLoading(false);
                 })
                 .catch((err) => {
                     console.log(err);
+                    setLoading(false);
                 });
         }
     };
@@ -263,6 +276,9 @@ const Gameboard = ({}) => {
                 redirectToLeaderboard={() => navigate("/leaderboard")}
                 currentlyOnLeaderboard={false}
                 signedIn={true}
+                login={() => {
+                    navigate("/login");
+                }}
             />
 
             <div className='h-[42rem]'>
@@ -333,11 +349,14 @@ const Gameboard = ({}) => {
 
             <Keyboard
                 updateInput={updateInput}
-                enterGuessEnabled={currentInput.length === wordLength}
+                enterGuessEnabled={
+                    currentInput.length === wordLength && !loading
+                }
                 enterGuess={makeGuess}
                 perfectLetters={perfectLetters}
                 goodLetters={goodLetters}
                 badLetters={badLetters}
+                loading={loading}
             />
         </div>
     );

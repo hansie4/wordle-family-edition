@@ -3,13 +3,19 @@ const Header = ({
     redirectToLeaderboard,
     currentlyOnLeaderboard,
     signedIn,
+    login,
 }) => {
     return (
         <div className='flex justify-between h-11 bg-primary p-1'>
             <button
                 className='btn btn-outline btn-sm text-black bg-secondary'
-                onClick={logout}
-                disabled={!signedIn}
+                onClick={() => {
+                    if (signedIn) {
+                        logout();
+                    } else {
+                        login();
+                    }
+                }}
             >
                 <svg
                     xmlns='http://www.w3.org/2000/svg'

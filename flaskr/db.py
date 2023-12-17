@@ -54,7 +54,9 @@ def get_user(username):
 def get_leaderboard():
     db = get_db()
 
-    leaderboard = db.execute(f"SELECT * FROM leaderboard").fetchall()
+    leaderboard = db.execute(
+        f"SELECT * FROM leaderboard INNER JOIN user ON user.id=leaderboard.guesser_id"
+    ).fetchall()
 
     if leaderboard:
         return [dict(x) for x in leaderboard]

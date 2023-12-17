@@ -77,7 +77,11 @@ const Login = ({ login }) => {
                         </div>
                     ) : null}
                     <div className='card-actions justify-between'>
-                        <button className='btn btn-primary' disabled={loading}>
+                        <button
+                            className='btn btn-primary'
+                            disabled={loading}
+                            onClick={() => navigate("/leaderboard")}
+                        >
                             <svg
                                 xmlns='http://www.w3.org/2000/svg'
                                 fill='none'
