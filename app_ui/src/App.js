@@ -2,31 +2,12 @@ import { createContext, useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Gameboard from "./Gameboard";
+import Login from "./Login";
 
 export const AppContext = createContext({
     username: null,
     user_id: null,
 });
-
-const router = createBrowserRouter(
-    [
-        {
-            path: "/",
-            element: <Gameboard />,
-        },
-        {
-            path: "/leaderboard",
-            element: <div>Leaderboard</div>,
-        },
-        {
-            path: "/login",
-            element: <div>Login Page</div>,
-        },
-    ],
-    {
-        basename: "/ui",
-    }
-);
 
 function App() {
     const [username, setUsername] = useState(
@@ -46,6 +27,41 @@ function App() {
             localStorage.removeItem("username");
         }
     }, [username]);
+
+    useEffect(() => {
+        if (user_id) {
+            localStorage.setItem("uid", user_id);
+        } else {
+            localStorage.removeItem("uid");
+        }
+    }, [user_id]);
+
+    const router = createBrowserRouter(
+        [
+            {
+                path: "/",
+                element: <Gameboard />,
+            },
+            {
+                path: "/leaderboard",
+                element: <div>Leaderboard</div>,
+            },
+            {
+                path: "/login",
+                element: (
+                    <Login
+                        login={(uname, uid) => {
+                            setUsername(uname);
+                            setUserId(uid);
+                        }}
+                    />
+                ),
+            },
+        ],
+        {
+            basename: "/ui",
+        }
+    );
 
     return (
         <AppContext.Provider

@@ -6,6 +6,7 @@ import { AppContext } from "./App";
 import axios from "axios";
 import NewWordModal from "./NewWordModal";
 import PostRoundModal from "./PostRoundModal";
+import { useNavigate } from "react-router-dom";
 
 const MAX_NUM_ATTEMTPS = 7;
 
@@ -84,7 +85,9 @@ const openNewWordModal = () => {
 };
 
 const Gameboard = ({ logout, redirectToLeaderboard }) => {
-    const { user_id } = useContext(AppContext);
+    const navigate = useNavigate();
+
+    const { user_id, updateUsername, updateUserId } = useContext(AppContext);
 
     const [attempts, setAttempts] = useState([]);
     const [wordLength, setWordLength] = useState(5);
@@ -252,7 +255,11 @@ const Gameboard = ({ logout, redirectToLeaderboard }) => {
             <NewWordModal close={closeNewWordModal} />
             <PostRoundModal close={closePostRoundModal} />
             <Header
-                logout={() => openNewWordModal()}
+                logout={() => {
+                    updateUsername("");
+                    updateUserId("");
+                    navigate("/login");
+                }}
                 redirectToLeaderboard={redirectToLeaderboard}
             />
 
