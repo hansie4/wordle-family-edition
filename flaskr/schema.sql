@@ -111,6 +111,11 @@ VALUES (
         'april k',
         'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
     );
+INSERT INTO user (username, avatar_link)
+VALUES (
+        'fran',
+        'https://daisyui.com/tailwind-css-component-profile-4@56w.png'
+    );
 INSERT INTO word (word, body, f_name)
 VALUES ('beryl', 'The best cutie', 'test.png');
 INSERT INTO word (word, body, f_name)
