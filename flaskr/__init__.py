@@ -64,12 +64,6 @@ def create_app(test_config=None):
     print(f"Loaded {len(possibleWords)} words.")
 
     @cross_origin(origin="*")
-    @app.get("/ui")
-    @app.get("/ui/<path>")
-    def serve(path=None):
-        return render_template("index.html", name=path)
-
-    @cross_origin(origin="*")
     @app.get("/hello")
     def hello():
         return "Hello!"

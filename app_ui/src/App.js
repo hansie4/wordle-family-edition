@@ -11,7 +11,7 @@ export const AppContext = createContext({
     user_id: null,
 });
 
-axios.defaults.baseURL = process.env.BASE_URL
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
     ? process.env.BASE_URL
     : "http://localhost:5000";
 

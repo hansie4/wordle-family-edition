@@ -19,3 +19,5 @@ RETURN:     200 if valid request
 get leaderboard:
 SEND: nothing
 RETURN: leaderboard
+
+flask --app flaskr init-db
