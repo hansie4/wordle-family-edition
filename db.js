@@ -225,7 +225,8 @@ const get_current_score = (uid) => {
 };
 
 const add_score_to_leaderboard = async (uid, scoreToAdd) => {
-    const currentScore = await get_current_score(uid)["score"];
+    const currentScoreObj = await get_current_score(uid);
+    const currentScore = currentScoreObj["score"];
 
     if (currentScore !== undefined && currentScore !== null) {
         return new Promise((resolve, reject) => {

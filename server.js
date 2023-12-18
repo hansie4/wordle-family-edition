@@ -107,7 +107,7 @@ app.get("/attempts", async (req, res) => {
 
 app.get("/word", async (req, res) => {
     if (!req.query.wid) {
-        return res.sendStatus(400);
+        return res.status(400).send();
     }
 
     wid = req.query.wid;
@@ -117,7 +117,7 @@ app.get("/word", async (req, res) => {
     if (wordDetails) {
         return res.send(wordDetails);
     } else {
-        return res.sendStatus(400);
+        return res.status(400).send();
     }
 });
 
