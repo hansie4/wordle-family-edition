@@ -226,35 +226,25 @@ const get_current_score = (uid) => {
 
 const add_score_to_leaderboard = async (uid, scoreToAdd) => {
     const currentScoreObj = await get_current_score(uid);
-    const currentScore = currentScoreObj["score"];
+    let currentScore = 0;
 
-    if (currentScore !== undefined && currentScore !== null) {
-        return new Promise((resolve, reject) => {
-            db.get(
-                `UPDATE leaderboard SET score=${
-                    currentScore + scoreToAdd
-                } WHERE guesser_id=${uid}`,
-                (err) => {
-                    if (err) {
-                        console.log("ERROR UPDATING SCORE: ", err);
-                    }
-                    return resolve();
-                }
-            );
-        });
-    } else {
-        return new Promise((resolve, reject) => {
-            db.get(
-                `INSERT INTO leaderboard (guesser_id, score) VALUES (${uid},${scoreToAdd})`,
-                (err) => {
-                    if (err) {
-                        console.log("ERROR INSERTING SCORE: ", err);
-                    }
-                    return resolve();
-                }
-            );
-        });
+    if (currentScoreObj) {
+        currentScore = currentScoreObj["score"];
     }
+
+    const score = scoreToAdd + currentScore;
+
+    return new Promise((resolve, reject) => {
+        db.get(
+            `INSERT OR REPLACE INTO leaderboard (guesser_id, score) VALUES (${uid},${score})`,
+            (err) => {
+                if (err) {
+                    console.log("ERROR INSERTING SCORE: ", err);
+                }
+                return resolve();
+            }
+        );
+    });
 };
 
 module.exports = {
