@@ -276,14 +276,14 @@ const Gameboard = ({ showLeaderboard }) => {
 
     useEffect(() => {
         if (wordId) {
-            axios
-                .get(BASE_URL + "/word", { params: { wid: wordId } })
-                .then(({ data }) => {
-                    setWordDeatils(data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            // axios
+            //     .get(BASE_URL + "/word", { params: { wid: wordId } })
+            //     .then(({ data }) => {
+            //         setWordDeatils(data);
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //     });
         }
     }, [wordId]);
 
