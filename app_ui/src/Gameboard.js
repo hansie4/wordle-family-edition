@@ -211,7 +211,7 @@ const Gameboard = ({ showLeaderboard }) => {
                         setAlertType("success");
                         getAttempts();
                         setWordDeatils(res.data.word_details);
-                        //openPostRoundWinModal();
+                        openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
                         setAlertMessage(
