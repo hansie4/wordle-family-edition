@@ -109,6 +109,8 @@ const Gameboard = ({ showLeaderboard }) => {
     const [goodLetters, setGoodLetters] = useState(new Set());
     const [badLetters, setBadLetters] = useState(new Set());
 
+    const [wordDetails, setWordDeatils] = useState(null);
+
     const [wordId, setWordId] = useState();
 
     const closePostRoundWinModal = () => {
@@ -210,8 +212,8 @@ const Gameboard = ({ showLeaderboard }) => {
                         setAlertMessage("You correctly guessed the word!");
                         setAlertType("success");
                         getAttempts();
-                        // setWordId(res.data.word_id);
-                        // openPostRoundWinModal();
+                        setWordId(res.data.word_id);
+                        openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
                         setAlertMessage(
@@ -272,10 +274,26 @@ const Gameboard = ({ showLeaderboard }) => {
         getCurrentState();
     }, [getCurrentState]);
 
+    useEffect(() => {
+        if (wordId) {
+            axios
+                .get(BASE_URL + "/word", { params: { wid: wordId } })
+                .then(({ data }) => {
+                    setWordDeatils(data);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    }, [wordId]);
+
     return (
         <div className='w-screen h-screen'>
             <NewWordModal close={closeNewWordModal} />
-            <PostRoundWinModal close={closePostRoundWinModal} wordId={wordId} />
+            <PostRoundWinModal
+                close={closePostRoundWinModal}
+                wordDetails={wordDetails}
+            />
             <PostRoundLoseModal close={closePostRoundLoseModal} />
             <RunOutOfWordsModal navigateToLeaderboard={showLeaderboard} />
             <Header

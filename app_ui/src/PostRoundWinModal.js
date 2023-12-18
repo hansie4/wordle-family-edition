@@ -1,23 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { BASE_URL } from "./App";
-
-const PostRoundWinModal = ({ close, wordId }) => {
-    const [wordDetails, setWordDeatils] = useState(null);
-
-    useEffect(() => {
-        if (wordId) {
-            axios
-                .get(BASE_URL + "/word", { params: { wid: wordId } })
-                .then(({ data }) => {
-                    setWordDeatils(data);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        }
-    }, [wordId]);
-
+const PostRoundWinModal = ({ close, wordDetails }) => {
     return (
         <dialog id='postRoundWinModal' className='modal'>
             {wordDetails ? (
