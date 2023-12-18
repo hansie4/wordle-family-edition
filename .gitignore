@@ -15,3 +15,4 @@ build/
 *.egg-info/
 app_ui/.env
 .env
+db.sqlite
