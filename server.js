@@ -168,6 +168,8 @@ app.post("/guess", async (req, res) => {
         return res.sendStatus(400);
     }
 
+    let final_response = {};
+
     const guess = req.body.guess;
 
     const currentRound = await db.get_round(rid);
@@ -218,26 +220,28 @@ app.post("/guess", async (req, res) => {
 
             console.log("WORD CORRECT");
 
-            return res.json({
+            final_response = {
                 valid: true,
                 correct: true,
                 value: guess,
                 attempt_id: aId,
                 attempt_map: attemptCorrectMap,
                 word_id: currentRound.word_id,
-            });
+            };
         } else {
-            return res.send({
+            final_response = {
                 valid: true,
                 correct: false,
                 value: guess,
                 attempt_id: aId,
                 attempt_map: attemptCorrectMap,
-            });
+            };
         }
     } else {
-        return res.send({ valid: false });
+        final_response = { valid: false };
     }
+
+    return res.send(final_response);
 });
 
 app.get("/*", function (req, res) {
