@@ -272,8 +272,6 @@ const Gameboard = ({ showLeaderboard }) => {
         getCurrentState();
     }, [getCurrentState]);
 
-    console.log(attempts);
-
     return (
         <div className='w-screen h-screen'>
             <NewWordModal close={closeNewWordModal} />

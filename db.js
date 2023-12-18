@@ -211,7 +211,7 @@ const complete_round = (rid) => {
 const get_current_score = (uid) => {
     return new Promise((resolve, reject) => {
         db.get(
-            `SELECT score FROM leaderboard WHERE guesser_id=${uid}`,
+            `SELECT * FROM leaderboard WHERE guesser_id=${uid}`,
             (err, row) => {
                 if (err) {
                     console.log("ERROR RETRIEVING SCORE: ", err);
@@ -225,9 +225,9 @@ const get_current_score = (uid) => {
 };
 
 const add_score_to_leaderboard = async (uid, scoreToAdd) => {
-    const currentScore = await get_current_score(uid);
+    const currentScore = await get_current_score(uid)["score"];
 
-    if (currentScore !== null) {
+    if (currentScore !== undefined && currentScore !== null) {
         return new Promise((resolve, reject) => {
             db.get(
                 `UPDATE leaderboard SET score=${
@@ -244,7 +244,7 @@ const add_score_to_leaderboard = async (uid, scoreToAdd) => {
     } else {
         return new Promise((resolve, reject) => {
             db.get(
-                `INSERT INTO leaderboard (guesser_id, score) VALUES (${user_id},${scoreToAdd})`,
+                `INSERT INTO leaderboard (guesser_id, score) VALUES (${uid},${scoreToAdd})`,
                 (err) => {
                     if (err) {
                         console.log("ERROR INSERTING SCORE: ", err);
