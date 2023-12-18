@@ -106,19 +106,20 @@ app.get("/attempts", async (req, res) => {
 });
 
 app.get("/word", async (req, res) => {
-    if (!req.query.wid) {
-        return res.status(400).send();
-    }
+    // if (!req.query.wid) {
+    //     return res.status(400).send();
+    // }
 
-    wid = req.query.wid;
+    // wid = req.query.wid;
 
-    wordDetails = await db.get_word_details(wid);
+    // wordDetails = await db.get_word_details(wid);
 
-    if (wordDetails) {
-        return res.send(wordDetails);
-    } else {
-        return res.status(400).send();
-    }
+    // if (wordDetails) {
+    //     return res.send(wordDetails);
+    // } else {
+    //     return res.status(400).send();
+    // }
+    return res.send({ word: "test", f_name: "test.png", body: "awdaw", id: 1 });
 });
 
 app.post("/new-round", async (req, res) => {
