@@ -211,12 +211,12 @@ app.post("/guess", async (req, res) => {
         }
 
         if (isWordTheCorrectWord) {
-            // await db.add_score_to_leaderboard(
-            //     uid,
-            //     MAX_NUM_ATTEMPTS - updatedAttempts.length
-            // );
+            await db.add_score_to_leaderboard(
+                uid,
+                MAX_NUM_ATTEMPTS - updatedAttempts.length
+            );
 
-            // await db.complete_round(currentRound.round_id);
+            await db.complete_round(currentRound.round_id);
 
             final_response = {
                 valid: true,
@@ -239,8 +239,7 @@ app.post("/guess", async (req, res) => {
         final_response = { valid: false };
     }
 
-    console.log("FINAL RESPONSE");
-    res.send(final_response);
+    return res.send(final_response);
 });
 
 app.get("/*", function (req, res) {
