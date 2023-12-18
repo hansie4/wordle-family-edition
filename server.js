@@ -5,7 +5,7 @@ const app = express();
 const db = require("./db");
 const fs = require("fs");
 
-const PORT = 8080;
+const PORT = 80;
 const MAX_NUM_ATTEMPTS = 7;
 
 const loadWords = () => {
@@ -209,6 +209,7 @@ app.post("/guess", async (req, res) => {
         }
 
         if (isWordTheCorrectWord) {
+            console.log("WORD CORRECT");
             await db.add_score_to_leaderboard(
                 uid,
                 MAX_NUM_ATTEMPTS - updatedAttempts.length
