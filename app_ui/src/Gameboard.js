@@ -111,10 +111,8 @@ const Gameboard = ({ showLeaderboard }) => {
 
     const [wordDetails, setWordDeatils] = useState(null);
 
-    const [wordId, setWordId] = useState();
-
     const closePostRoundWinModal = () => {
-        setWordId(null);
+        setWordDeatils(null);
         document.getElementById("postRoundWinModal").close();
         openNewWordModal();
     };
@@ -212,7 +210,7 @@ const Gameboard = ({ showLeaderboard }) => {
                         setAlertMessage("You correctly guessed the word!");
                         setAlertType("success");
                         getAttempts();
-                        setWordId(res.data.word_id);
+                        setWordDeatils(res.data.word_details);
                         openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
@@ -274,18 +272,18 @@ const Gameboard = ({ showLeaderboard }) => {
         getCurrentState();
     }, [getCurrentState]);
 
-    useEffect(() => {
-        if (wordId) {
-            // axios
-            //     .get(BASE_URL + "/word", { params: { wid: wordId } })
-            //     .then(({ data }) => {
-            //         setWordDeatils(data);
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //     });
-        }
-    }, [wordId]);
+    // useEffect(() => {
+    //     if (wordId) {
+    //         axios
+    //             .get(BASE_URL + "/word", { params: { wid: wordId } })
+    //             .then(({ data }) => {
+    //                 setWordDeatils(data);
+    //             })
+    //             .catch((err) => {
+    //                 console.log(err);
+    //             });
+    //     }
+    // }, [wordId]);
 
     return (
         <div className='w-screen h-screen'>

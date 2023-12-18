@@ -218,6 +218,10 @@ app.post("/guess", async (req, res) => {
 
             await db.complete_round(currentRound.round_id);
 
+            console.log(currentRound);
+            const wDetails = await db.get_word_details(currentRound.word_id);
+            console.log(wDetails);
+
             final_response = {
                 valid: true,
                 correct: true,
@@ -225,6 +229,7 @@ app.post("/guess", async (req, res) => {
                 attempt_id: aId,
                 attempt_map: attemptCorrectMap,
                 word_id: currentRound.word_id,
+                word_details: wDetails,
             };
         } else {
             final_response = {
