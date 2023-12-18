@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import Header from "./Header";
 import { AppContext, BASE_URL } from "./App";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const mapLeaderboard = (leaderboard) => {
@@ -32,8 +31,7 @@ const capitalizeFirst = (name) => {
     return name.charAt(0).toUpperCase() + name.substring(1, name.length);
 };
 
-const Leaderboard = () => {
-    const navigate = useNavigate();
+const Leaderboard = ({ closeLeaderboard }) => {
     const { username, user_id, updateUsername, updateUserId } =
         useContext(AppContext);
 
@@ -58,15 +56,14 @@ const Leaderboard = () => {
                 currentlyOnLeaderboard={true}
                 signedIn={username && user_id}
                 redirectToLeaderboard={() => {
-                    navigate("/");
+                    closeLeaderboard();
                 }}
                 logout={() => {
                     updateUsername("");
                     updateUserId("");
-                    navigate("/login");
                 }}
                 login={() => {
-                    navigate("/login");
+                    closeLeaderboard();
                 }}
             />
             <div className='overflow-auto bg-rose-100 h-full'>

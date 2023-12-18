@@ -1,13 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { AppContext, BASE_URL } from "./App";
+import { BASE_URL } from "./App";
 
-const Login = ({ login }) => {
-    const navigate = useNavigate();
-
-    const appContext = useContext(AppContext);
-
+const Login = ({ login, showLeaderboard }) => {
     const [username, setUsername] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -23,7 +18,6 @@ const Login = ({ login }) => {
                 .then((res) => {
                     login(res.data.username, res.data.id);
                     setLoading(false);
-                    navigate("/");
                 })
                 .catch((err) => {
                     setErrMessage("Invalid login credentials.");
@@ -35,10 +29,6 @@ const Login = ({ login }) => {
     useEffect(() => {
         setErrMessage(null);
     }, [username]);
-
-    if (appContext.username && appContext.user_id) {
-        navigate("/");
-    }
 
     return (
         <div className='w-screen h-screen bg-primary grid place-content-center'>
@@ -80,7 +70,7 @@ const Login = ({ login }) => {
                         <button
                             className='btn btn-primary'
                             disabled={loading}
-                            onClick={() => navigate("/leaderboard")}
+                            onClick={showLeaderboard}
                         >
                             <svg
                                 xmlns='http://www.w3.org/2000/svg'

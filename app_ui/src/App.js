@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Gameboard from "./Gameboard";
 import Login from "./Login";
@@ -25,6 +24,8 @@ function App() {
         localStorage.getItem("uid") ? localStorage.getItem("uid") : null
     );
 
+    const [leaderboardShown, setLeaderboardShown] = useState(false);
+
     useEffect(() => {
         if (username) {
             localStorage.setItem("username", username);
@@ -41,33 +42,6 @@ function App() {
         }
     }, [user_id]);
 
-    const router = createBrowserRouter(
-        [
-            {
-                path: "/",
-                element: <Gameboard />,
-            },
-            {
-                path: "/leaderboard",
-                element: <Leaderboard />,
-            },
-            {
-                path: "/login",
-                element: (
-                    <Login
-                        login={(uname, uid) => {
-                            setUsername(uname);
-                            setUserId(uid);
-                        }}
-                    />
-                ),
-            },
-        ],
-        {
-            basename: "/ui",
-        }
-    );
-
     return (
         <AppContext.Provider
             value={{
@@ -77,7 +51,21 @@ function App() {
                 updateUserId: (e) => setUserId(e),
             }}
         >
-            <RouterProvider router={router} />
+            {leaderboardShown ? (
+                <Leaderboard
+                    closeLeaderboard={() => setLeaderboardShown(false)}
+                />
+            ) : username && user_id ? (
+                <Gameboard showLeaderboard={() => setLeaderboardShown(true)} />
+            ) : (
+                <Login
+                    login={(uname, u_id) => {
+                        setUsername(uname);
+                        setUserId(u_id);
+                    }}
+                    showLeaderboard={() => setLeaderboardShown(true)}
+                />
+            )}
         </AppContext.Provider>
     );
 }

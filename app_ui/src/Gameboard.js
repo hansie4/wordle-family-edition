@@ -7,7 +7,6 @@ import axios from "axios";
 import NewWordModal from "./NewWordModal";
 import PostRoundWinModal from "./PostRoundWinModal";
 import PostRoundLoseModal from "./PostRoundLoseModal";
-import { useNavigate } from "react-router-dom";
 import RunOutOfWordsModal from "./RunOutOfWordsModal";
 import { BASE_URL } from "./App";
 
@@ -90,9 +89,7 @@ const openNewWordModal = () => {
     document.getElementById("newWordModal").showModal();
 };
 
-const Gameboard = () => {
-    const navigate = useNavigate();
-
+const Gameboard = ({ showLeaderboard }) => {
     const { user_id, updateUsername, updateUserId } = useContext(AppContext);
 
     const [loading, setLoading] = useState(false);
@@ -275,26 +272,22 @@ const Gameboard = () => {
         getCurrentState();
     }, [getCurrentState]);
 
+    console.log(attempts);
+
     return (
         <div className='w-screen h-screen'>
             <NewWordModal close={closeNewWordModal} />
             <PostRoundWinModal close={closePostRoundWinModal} wordId={wordId} />
             <PostRoundLoseModal close={closePostRoundLoseModal} />
-            <RunOutOfWordsModal
-                navigateToLeaderboard={() => navigate("/leaderboard")}
-            />
+            <RunOutOfWordsModal navigateToLeaderboard={showLeaderboard} />
             <Header
                 logout={() => {
                     updateUsername("");
                     updateUserId("");
-                    navigate("/login");
                 }}
-                redirectToLeaderboard={() => navigate("/leaderboard")}
+                redirectToLeaderboard={showLeaderboard}
                 currentlyOnLeaderboard={false}
                 signedIn={true}
-                login={() => {
-                    navigate("/login");
-                }}
             />
 
             <div className='h-[42rem]'>
