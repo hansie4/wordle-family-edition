@@ -218,8 +218,6 @@ app.post("/guess", async (req, res) => {
 
             await db.complete_round(currentRound.round_id);
 
-            console.log("WORD CORRECT");
-
             final_response = {
                 valid: true,
                 correct: true,
@@ -241,7 +239,8 @@ app.post("/guess", async (req, res) => {
         final_response = { valid: false };
     }
 
-    return res.send(final_response);
+    console.log("FINAL RESPONSE");
+    res.send(final_response);
 });
 
 app.get("/*", function (req, res) {
