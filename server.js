@@ -209,13 +209,14 @@ app.post("/guess", async (req, res) => {
         }
 
         if (isWordTheCorrectWord) {
-            console.log("WORD CORRECT");
             await db.add_score_to_leaderboard(
                 uid,
                 MAX_NUM_ATTEMPTS - updatedAttempts.length
             );
 
             await db.complete_round(currentRound.round_id);
+
+            console.log("WORD CORRECT");
 
             return res.send({
                 valid: true,
