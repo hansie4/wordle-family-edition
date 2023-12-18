@@ -218,7 +218,7 @@ app.post("/guess", async (req, res) => {
 
             console.log("WORD CORRECT");
 
-            return res.send({
+            return res.json({
                 valid: true,
                 correct: true,
                 value: guess,
