@@ -109,7 +109,7 @@ const Gameboard = ({ showLeaderboard }) => {
     const [goodLetters, setGoodLetters] = useState(new Set());
     const [badLetters, setBadLetters] = useState(new Set());
 
-    const [d, setD] = useState({});
+    const [wordDetails, setWordDeatils] = useState({});
 
     const closePostRoundWinModal = () => {
         document.getElementById("postRoundWinModal").close();
@@ -204,14 +204,11 @@ const Gameboard = ({ showLeaderboard }) => {
                     { headers: { uid: user_id }, params: { rid: roundId } }
                 )
                 .then((res) => {
-                    console.log(res.data);
                     if (res.data.correct) {
                         setAlertMessage("You correctly guessed the word!");
                         setAlertType("success");
                         getAttempts();
-                        //setWordDeatils(res.data.word_details);
-                        setD(res.data.word_details);
-                        console.log(res.data.word_details);
+                        setWordDeatils(res.data.word_details);
                         openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
@@ -276,7 +273,10 @@ const Gameboard = ({ showLeaderboard }) => {
     return (
         <div className='w-screen h-screen'>
             <NewWordModal close={closeNewWordModal} />
-            <PostRoundWinModal close={closePostRoundWinModal} wordDetails={d} />
+            <PostRoundWinModal
+                close={closePostRoundWinModal}
+                wordDetails={wordDetails}
+            />
             <PostRoundLoseModal close={closePostRoundLoseModal} />
             <RunOutOfWordsModal navigateToLeaderboard={showLeaderboard} />
             <Header

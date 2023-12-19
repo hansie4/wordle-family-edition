@@ -66,8 +66,8 @@ const Leaderboard = ({ closeLeaderboard }) => {
                     closeLeaderboard();
                 }}
             />
-            <div className='overflow-auto bg-rose-100 h-full'>
-                <table className='table table-zebra'>
+            <div className='overflow-auto bg-rose-100 h-full w-full'>
+                <table className='table table-zebra w-full'>
                     {/* head */}
                     <thead className='bg-success'>
                         <tr>
