@@ -141,7 +141,7 @@ app.post("/new-round", async (req, res) => {
 
     console.log(words);
 
-    const possibleWords = words.filter((W) => !completedWordsSet.has(W));
+    const possibleWords = words.filter((W) => !completedWordsSet.has(W.word));
 
     console.log(possibleWords);
 
