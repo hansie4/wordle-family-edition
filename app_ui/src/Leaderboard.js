@@ -85,7 +85,7 @@ const Leaderboard = ({ closeLeaderboard }) => {
                                         <div className='avatar mr-2'>
                                             <div className='w-10 rounded-full'>
                                                 <img
-                                                    src={P.avatar_link}
+                                                    src={`https://drive.google.com/uc?export=view&id=${P.avatar_link}`}
                                                     alt='Tailwind-CSS-Avatar-component'
                                                 />
                                             </div>
