@@ -177,12 +177,14 @@ const Gameboard = ({ showLeaderboard }) => {
             .then((res) => {
                 setAttempts(res.data);
                 setLoading(false);
+                setAlertMessage(defaultMessage);
+                setAlertType("standard");
             })
             .catch((err) => {
                 console.log(err);
                 setLoading(false);
             });
-    }, [roundId, user_id]);
+    }, [roundId, user_id, defaultMessage]);
 
     const updateInput = (inputVal) => {
         if (inputVal === "clear") {
