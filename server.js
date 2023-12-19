@@ -137,9 +137,13 @@ app.post("/new-round", async (req, res) => {
     let words = await db.get_all_words();
     const completedRoundsWithWords = await db.get_all_completed_words(uid);
     const completedWords = completedRoundsWithWords.map((R) => R.word);
-    console.log(completedWords);
+    const completedWordsSet = new Set(completedWords);
 
-    words = words.filter((W) => !completedWords.find((W1) => W1 === W));
+    console.log(words);
+
+    const possibleWords = words.filter((W) => !completedWordsSet.has(W));
+
+    console.log(possibleWords);
 
     if (words.length === 0) {
         return res.send({ wordCreated: false, winner: true });
