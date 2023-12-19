@@ -167,24 +167,29 @@ const Gameboard = ({ showLeaderboard }) => {
             });
     };
 
-    const getAttempts = useCallback(() => {
-        setLoading(true);
-        axios
-            .get(BASE_URL + "/attempts", {
-                params: { rid: roundId },
-                headers: { uid: user_id },
-            })
-            .then((res) => {
-                setAttempts(res.data);
-                setLoading(false);
-                setAlertMessage(defaultMessage);
-                setAlertType("standard");
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoading(false);
-            });
-    }, [roundId, user_id, defaultMessage]);
+    const getAttempts = useCallback(
+        (updateMessage) => {
+            setLoading(true);
+            axios
+                .get(BASE_URL + "/attempts", {
+                    params: { rid: roundId },
+                    headers: { uid: user_id },
+                })
+                .then((res) => {
+                    setAttempts(res.data);
+                    setLoading(false);
+                    if (updateMessage) {
+                        setAlertMessage(defaultMessage);
+                        setAlertType("standard");
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                    setLoading(false);
+                });
+        },
+        [roundId, user_id, defaultMessage]
+    );
 
     const updateInput = (inputVal) => {
         if (inputVal === "clear") {
@@ -209,7 +214,7 @@ const Gameboard = ({ showLeaderboard }) => {
                     if (res.data.correct) {
                         setAlertMessage("You correctly guessed the word!");
                         setAlertType("success");
-                        getAttempts();
+                        getAttempts(false);
                         setWordDeatils(res.data.word_details);
                         openPostRoundWinModal();
                     } else if (res.data.valid === false) {
@@ -217,14 +222,14 @@ const Gameboard = ({ showLeaderboard }) => {
                         setAlertMessage(
                             `"${currentInput}" was not a valid guess.`
                         );
-                        getAttempts();
+                        getAttempts(false);
                     } else {
                         setAlertMessage(defaultMessage);
                         setAlertType("standard");
                         if (currentGuessRow === MAX_NUM_ATTEMTPS - 1) {
                             openPostRoundLoseModal();
                         } else {
-                            getAttempts();
+                            getAttempts(false);
                         }
                     }
                     setLoading(false);
@@ -265,7 +270,7 @@ const Gameboard = ({ showLeaderboard }) => {
     }, [attempts]);
 
     useEffect(() => {
-        getAttempts();
+        getAttempts(true);
     }, [roundId, getAttempts]);
 
     useEffect(() => {
