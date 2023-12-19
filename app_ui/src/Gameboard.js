@@ -209,8 +209,8 @@ const Gameboard = ({ showLeaderboard }) => {
                     if (res.data.correct) {
                         setAlertMessage("You correctly guessed the word!");
                         setAlertType("success");
-                        //getAttempts();
-                        setWordDeatils(res.data.word_details);
+                        getAttempts();
+                        //setWordDeatils(res.data.word_details);
                         openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
