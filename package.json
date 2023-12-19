@@ -7,6 +7,7 @@
         "sqlite3": "^5.1.6"
     },
     "scripts": {
-        "dev": "nodemon server.js"
+        "dev": "nodemon server.js",
+        "dev-db": "INIT_DB=True node server.js"
     }
 }
