@@ -18,7 +18,7 @@ const PostRoundWinModal = ({ close, wordDetails }) => {
                         </div>
                         <div className='card-body'>
                             <h2 className='card-title'>
-                                {wordDetails.word.toUpperCase()}
+                                {wordDetails.word?.toUpperCase()}
                             </h2>
                             <p>{wordDetails.body}</p>
                             <div className='card-actions justify-end'>
