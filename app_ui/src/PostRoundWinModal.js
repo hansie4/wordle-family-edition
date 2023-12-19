@@ -6,14 +6,7 @@ const PostRoundWinModal = ({ close, wordDetails }) => {
                     <div className='card card-side bg-base-100 shadow-xl'>
                         <div className='avatar'>
                             <div className='w-36 h-48 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 ml-4 mt-4 mb-4'>
-                                <img
-                                    src={
-                                        wordDetails.f_name
-                                            ? wordDetails.f_name
-                                            : ""
-                                    }
-                                    alt='stuff'
-                                />
+                                <img src={""} alt='stuff' />
                             </div>
                         </div>
                         <div className='card-body'>
