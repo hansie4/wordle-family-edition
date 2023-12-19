@@ -355,9 +355,9 @@ VALUES (
     );
 INSERT INTO word (word, body, f_name)
 VALUES (
-        'cherry',
-        'We probably picked all the cherries the cherry farm had.',
-        ''
+        'fire',
+        'Big Red Shiny Mack Fire Engine in San Francisco.',
+        '154MIxaAO4b0M92Hve075HDHlR6Z-7yS0'
     );
 INSERT INTO word (word, body, f_name)
 VALUES (
@@ -370,4 +370,10 @@ VALUES (
         'crown',
         'Steve and Kev wearing the paper crowns from our amazing Christmas Eve tradition of opening Poppers.',
         '1KjWylhzdgJpkoNOVSv-v64IAg2gkj1YK'
+    );
+INSERT INTO word (word, body, f_name)
+VALUES (
+        'art',
+        'Pops and Beryl in Arkansas. Pops was always extremely supportive of art and creativity and would sit with Beryl while she embroidered.',
+        '1taf2ZvVgDCEoN1l4Y21M6QmRCX8NHYFA'
     );
