@@ -139,13 +139,14 @@ app.post("/new-round", async (req, res) => {
     const completedWords = completedRoundsWithWords.map((R) => R.word);
     const completedWordsSet = new Set(completedWords);
 
-    console.log(words);
+    //console.log(words);
 
     const possibleWords = words.filter((W) => !completedWordsSet.has(W.word));
 
-    console.log(possibleWords);
+    //console.log(possibleWords);
 
     if (possibleWords.length === 0) {
+        console.log(`${uid} has won the game!`);
         return res.send({ wordCreated: false, winner: true });
     }
 
