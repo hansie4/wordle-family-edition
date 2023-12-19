@@ -254,7 +254,7 @@ app.post("/guess", async (req, res) => {
     return res.send(final_response);
 });
 
-app.get("/*", function (req, res) {
+app.get("/", function (req, res) {
     res.sendFile(__dirname, "app_ui", "build", "index.html");
 });
 
