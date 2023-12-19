@@ -137,6 +137,7 @@ app.post("/new-round", async (req, res) => {
     let words = await db.get_all_words();
     const completedRoundsWithWords = await db.get_all_completed_words(uid);
     const completedWords = completedRoundsWithWords.map((R) => R.word);
+    console.log(completedWords);
 
     words = words.filter((W) => !completedWords.find((W1) => W1 === W));
 
