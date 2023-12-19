@@ -145,11 +145,12 @@ app.post("/new-round", async (req, res) => {
 
     console.log(possibleWords);
 
-    if (words.length === 0) {
+    if (possibleWords.length === 0) {
         return res.send({ wordCreated: false, winner: true });
     }
 
-    const newWordId = words[Math.floor(Math.random() * words.length)].id;
+    const newWordId =
+        possibleWords[Math.floor(Math.random() * possibleWords.length)].id;
 
     await db.create_new_round(uid, newWordId);
 
