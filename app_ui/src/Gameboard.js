@@ -109,10 +109,9 @@ const Gameboard = ({ showLeaderboard }) => {
     const [goodLetters, setGoodLetters] = useState(new Set());
     const [badLetters, setBadLetters] = useState(new Set());
 
-    const [wordDetails, setWordDeatils] = useState(null);
+    const [d, setD] = useState({});
 
     const closePostRoundWinModal = () => {
-        setWordDeatils(null);
         document.getElementById("postRoundWinModal").close();
         openNewWordModal();
     };
@@ -211,6 +210,7 @@ const Gameboard = ({ showLeaderboard }) => {
                         setAlertType("success");
                         getAttempts();
                         //setWordDeatils(res.data.word_details);
+                        setD(res.data.word_details);
                         console.log(res.data.word_details);
                         openPostRoundWinModal();
                     } else if (res.data.valid === false) {
@@ -276,10 +276,7 @@ const Gameboard = ({ showLeaderboard }) => {
     return (
         <div className='w-screen h-screen'>
             <NewWordModal close={closeNewWordModal} />
-            <PostRoundWinModal
-                close={closePostRoundWinModal}
-                wordDetails={wordDetails}
-            />
+            <PostRoundWinModal close={closePostRoundWinModal} wordDetails={d} />
             <PostRoundLoseModal close={closePostRoundLoseModal} />
             <RunOutOfWordsModal navigateToLeaderboard={showLeaderboard} />
             <Header
