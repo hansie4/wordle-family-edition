@@ -219,13 +219,7 @@ app.post("/guess", async (req, res) => {
             await db.complete_round(currentRound.round_id);
 
             console.log(currentRound);
-            //const wDetails = await db.get_word_details(currentRound.word_id);
-            const wDetails = {
-                id: 4,
-                word: "madison",
-                body: "person",
-                f_name: "test.png",
-            };
+            const wDetails = await db.get_word_details(currentRound.word_id);
             console.log(wDetails);
 
             final_response = {

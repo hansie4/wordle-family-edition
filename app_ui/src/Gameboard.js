@@ -211,7 +211,7 @@ const Gameboard = ({ showLeaderboard }) => {
                         setAlertType("success");
                         getAttempts();
                         setWordDeatils(res.data.word_details);
-                        openPostRoundWinModal();
+                        //openPostRoundWinModal();
                     } else if (res.data.valid === false) {
                         setAlertType("warning");
                         setAlertMessage(
@@ -271,19 +271,6 @@ const Gameboard = ({ showLeaderboard }) => {
     useEffect(() => {
         getCurrentState();
     }, [getCurrentState]);
-
-    // useEffect(() => {
-    //     if (wordId) {
-    //         axios
-    //             .get(BASE_URL + "/word", { params: { wid: wordId } })
-    //             .then(({ data }) => {
-    //                 setWordDeatils(data);
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //             });
-    //     }
-    // }, [wordId]);
 
     return (
         <div className='w-screen h-screen'>
