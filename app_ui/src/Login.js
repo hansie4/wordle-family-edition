@@ -35,7 +35,7 @@ const Login = ({ login, showLeaderboard }) => {
             <div className='card w-96 bg-base-100 shadow-xl'>
                 <figure>
                     <img
-                        src='https://drive.google.com/uc?export=view&id=1qB2wXneNhRdhFzrra35BtnwxBft3QrUD'
+                        src='https://drive.google.com/uc?export=view&id=1f6PW6MKu9y8A-EAdNaYd9jhpgJ-V48i8'
                         alt='Lloyd family'
                     />
                 </figure>
