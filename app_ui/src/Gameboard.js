@@ -270,7 +270,7 @@ const Gameboard = ({ showLeaderboard }) => {
     }, [attempts]);
 
     useEffect(() => {
-        getAttempts(false);
+        getAttempts(true);
     }, [roundId, getAttempts]);
 
     useEffect(() => {
