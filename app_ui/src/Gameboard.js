@@ -323,43 +323,45 @@ const Gameboard = ({ showLeaderboard }) => {
                     </div>
                 </div>
 
-                {Array.from(Array(MAX_NUM_ATTEMTPS).keys()).map((A, I) => {
-                    const att = attempts.find(
-                        (x) => x.attempt_number === I + 1
-                    );
+                <div className='p-1'>
+                    {Array.from(Array(MAX_NUM_ATTEMTPS).keys()).map((A, I) => {
+                        const att = attempts.find(
+                            (x) => x.attempt_number === I + 1
+                        );
 
-                    if (I === currentGuessRow) {
-                        return (
-                            <AttemptRow
-                                key={I}
-                                maxGuessLength={wordLength}
-                                attempt={currentInput.toUpperCase()}
-                                attemptCorrectMap={""}
-                                currentlyGuessing={true}
-                            />
-                        );
-                    } else if (att) {
-                        return (
-                            <AttemptRow
-                                key={I}
-                                maxGuessLength={wordLength}
-                                attempt={att.attempt_input.toUpperCase()}
-                                attemptCorrectMap={att.attempt_correct_map}
-                                currentlyGuessing={false}
-                            />
-                        );
-                    } else {
-                        return (
-                            <AttemptRow
-                                key={I}
-                                maxGuessLength={wordLength}
-                                attempt={""}
-                                attemptCorrectMap={""}
-                                currentlyGuessing={false}
-                            />
-                        );
-                    }
-                })}
+                        if (I === currentGuessRow) {
+                            return (
+                                <AttemptRow
+                                    key={I}
+                                    maxGuessLength={wordLength}
+                                    attempt={currentInput.toUpperCase()}
+                                    attemptCorrectMap={""}
+                                    currentlyGuessing={true}
+                                />
+                            );
+                        } else if (att) {
+                            return (
+                                <AttemptRow
+                                    key={I}
+                                    maxGuessLength={wordLength}
+                                    attempt={att.attempt_input.toUpperCase()}
+                                    attemptCorrectMap={att.attempt_correct_map}
+                                    currentlyGuessing={false}
+                                />
+                            );
+                        } else {
+                            return (
+                                <AttemptRow
+                                    key={I}
+                                    maxGuessLength={wordLength}
+                                    attempt={""}
+                                    attemptCorrectMap={""}
+                                    currentlyGuessing={false}
+                                />
+                            );
+                        }
+                    })}
+                </div>
             </div>
 
             <Keyboard
