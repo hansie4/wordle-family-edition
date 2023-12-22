@@ -220,7 +220,7 @@ app.post("/guess", async (req, res) => {
         if (isWordTheCorrectWord) {
             await db.add_score_to_leaderboard(
                 uid,
-                MAX_NUM_ATTEMPTS - updatedAttempts.length
+                MAX_NUM_ATTEMPTS + 1 - updatedAttempts.length
             );
 
             await db.complete_round(currentRound.round_id);
